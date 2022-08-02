@@ -1,0 +1,73 @@
+FROM fedora:latest
+
+# Update packages
+RUN dnf update -y 
+
+# Install dependencies
+RUN dnf install -y golang curl file git sudo wget python3 python3-pip
+
+## Set toolbox user
+RUN useradd -m -s /bin/bash toolbox && \
+    usermod -aG wheel toolbox
+
+
+# Tools
+# hakrawler
+RUN go install github.com/hakluke/hakrawler@latest && \
+mv ~/go/bin/hakrawler /usr/local/bin/
+
+# waybackurls
+RUN go install github.com/tomnomnom/waybackurls@latest && \
+mv ~/go/bin/waybackurls /usr/local/bin/
+
+# gau
+RUN go install github.com/lc/gau/v2/cmd/gau@latest && \
+mv ~/go/bin/gau /usr/local/bin/
+
+# anew
+RUN go install -v github.com/tomnomnom/anew@latest && \
+mv ~/go/bin/anew /usr/local/bin/
+
+# Asset finder
+RUN go install github.com/tomnomnom/assetfinder@latest && \
+mv ~/go/bin/assetfinder /usr/local/bin/
+
+# Amass
+RUN go install -v github.com/OWASP/Amass/v3/...@master && \
+mv ~/go/bin/amass /usr/local/bin/
+
+# pspy
+RUN wget `curl --silent "https://api.github.com/repos/DominicBreuker/pspy/releases/latest" |grep browser_download_url | grep pspy64 |grep -Po '"browser_download_url": "\K.*?(?=")'` -O /usr/local/bin/pspy64 && sudo chmod +x /usr/local/bin/pspy64
+
+# DNS Recon
+RUN git clone https://github.com/darkoperator/dnsrecon.git ~/dnsrecon && \
+cd ~/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
+ln -s -f  $PWD/dnsrecon.py /usr/local/bin/dnsrecon
+
+# Findomain
+RUN wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux -O /usr/local/bin/findomain && \
+chmod +x /usr/local/bin/findomain
+
+# httpx
+RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
+mv ~/go/bin/httpx /usr/local/bin/
+
+# dnsx
+RUN go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
+mv ~/go/bin/dnsx /usr/local/bin/
+
+# subfinder
+RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
+mv ~/go/bin/subfinder /usr/local/bin/
+
+# # Z4nzu/hackingtool
+# git clone https://github.com/Z4nzu/hackingtool.git ~/GIT-REPOS/CORE/hackingtool
+# chmod -R 755 ~/GIT-REPOS/CORE/hackingtool && cd ~/GIT-REPOS/CORE/hackingtool
+# sudo pip3 install -r requirement.txt
+# bash install.sh
+
+# Legion
+# https://github.com/carlospolop/legion
+
+# Set user
+USER toolbox
