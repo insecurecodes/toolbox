@@ -63,6 +63,10 @@ mv ~/go/bin/dnsx /usr/local/bin/
 RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
 mv ~/go/bin/subfinder /usr/local/bin/
 
+# uncover
+RUN go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest && \
+mv ~/go/bin/uncover /usr/local/bin/
+
 # # Z4nzu/hackingtool
 # git clone https://github.com/Z4nzu/hackingtool.git ~/GIT-REPOS/CORE/hackingtool
 # chmod -R 755 ~/GIT-REPOS/CORE/hackingtool && cd ~/GIT-REPOS/CORE/hackingtool
