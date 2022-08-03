@@ -24,13 +24,15 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-
-
-
+      # ENVS
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_KEY: ${{ secrets.DOCKER_KEY }}
       # Runs a set of commands using the runners shell
       - name: Docker build and push
         run: |
           docker build . -t renantmagalhaes/toolbox:latest
+          ${{ secrets.DOCKER_USERNAME }}
           docker login -u $DOCKER_USERNAME -p $DOCKER_KEY
           docker push renantmagalhaes/toolbox:latest
           
