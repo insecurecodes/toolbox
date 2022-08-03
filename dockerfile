@@ -1,14 +1,17 @@
-FROM fedora:latest
+FROM alpine:latest
 
 # Update packages
-RUN dnf update -y 
+RUN apk update && apk upgrade --available && sync
 
 # Install dependencies
-RUN dnf install -y golang curl file git sudo wget python3 python3-pip
+RUN apk add go curl file git sudo wget python3 py3-pip
 
 ## Set toolbox user
-RUN useradd -m -s /bin/bash toolbox && \
-    usermod -aG wheel toolbox
+RUN adduser \
+    --disabled-password \
+    #  --ingroup "root" \
+    "toolbox"
+RUN chown -R toolbox: /usr/local/bin/
 
 
 # Tools
@@ -37,7 +40,7 @@ RUN go install -v github.com/OWASP/Amass/v3/...@master && \
 mv ~/go/bin/amass /usr/local/bin/
 
 # pspy
-RUN wget `curl --silent "https://api.github.com/repos/DominicBreuker/pspy/releases/latest" |grep browser_download_url | grep pspy64 |grep -Po '"browser_download_url": "\K.*?(?=")'` -O /usr/local/bin/pspy64 && sudo chmod +x /usr/local/bin/pspy64
+RUN wget `curl --silent "https://api.github.com/repos/DominicBreuker/pspy/releases/latest" |grep browser_download_url | grep -m 1 pspy64 |awk {'print $2'} |sed 's/\"//g'` -O /usr/local/bin/pspy64 && chmod +x /usr/local/bin/pspy64
 
 # DNS Recon
 RUN git clone https://github.com/darkoperator/dnsrecon.git ~/dnsrecon && \
@@ -68,6 +71,3 @@ mv ~/go/bin/subfinder /usr/local/bin/
 
 # Legion
 # https://github.com/carlospolop/legion
-
-# Set user
-USER toolbox
