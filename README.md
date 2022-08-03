@@ -15,6 +15,7 @@ This toolbox includes several updated tools for red team assessments and penetra
 - httpx
 - pspy
 - subfinder
+- uncover
 - waybackurls
 ## Usage
 
