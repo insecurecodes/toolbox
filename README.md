@@ -4,18 +4,18 @@ This toolbox includes several updated tools for red team assessments and penetra
 
 *Tools*
 
-- hakrawler
-- waybackurls
-- gau
+- amass
 - anew
 - Assetfinder
-- Amass
-- pspy
 - DNS Recon
-- Findomain
-- httpx
 - dnsx
+- Findomain
+- gau
+- hakrawler
+- httpx
+- pspy
 - subfinder
+- waybackurls
 ## Usage
 
 ```
@@ -31,6 +31,4 @@ docker build . -t toolbox:latest
 # TODO
 
 - List of alias on zsh and shell
-- Add auto push to docker hub on schedule using github actions
 - Add more tools
-- Order list alphabetically
