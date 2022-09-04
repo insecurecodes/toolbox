@@ -48,7 +48,8 @@ cd ~/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
 ln -s -f  $PWD/dnsrecon.py /usr/local/bin/dnsrecon
 
 # Findomain
-RUN wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux -O /usr/local/bin/findomain && \
+RUN wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux.zip -O /usr/local/bin/findomain.zip && \
+unzip  /usr/local/bin/findomain.zip -d usr/local/bin/ && \
 chmod +x /usr/local/bin/findomain
 
 # httpx
