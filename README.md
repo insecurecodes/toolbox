@@ -17,6 +17,8 @@ This toolbox includes several updated tools for red team assessments and penetra
 - subfinder
 - uncover
 - waybackurls
+- waymore
+  
 ## Usage
 
 ```
@@ -40,6 +42,7 @@ alias pspy64='docker run -i securitybydesign/toolbox pspy64'
 alias subfinder='docker run -i securitybydesign/toolbox subfinder'
 alias uncover='docker run -i securitybydesign/toolbox uncover'
 alias waybackurls='docker run -i securitybydesign/toolbox waybackurls'
+alias waymore='docker run -i securitybydesign/toolbox waymore'
 ```
 
 

@@ -4,7 +4,7 @@ FROM alpine:latest
 RUN apk update && apk upgrade --available && sync
 
 # Install dependencies
-RUN apk add go curl file git sudo wget python3 py3-pip
+RUN apk add go curl file git sudo wget python3 py3-pip linux-headers py3-psutil
 
 ## Set toolbox user
 RUN adduser \
@@ -13,6 +13,8 @@ RUN adduser \
     "toolbox"
 RUN chown -R toolbox: /usr/local/bin/
 
+# Add python syslink for compatibility
+RUN ln -s -f /usr/bin/python3 /usr/bin/python
 
 # Tools
 # hakrawler
@@ -67,6 +69,14 @@ mv ~/go/bin/subfinder /usr/local/bin/
 # uncover
 RUN go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest && \
 mv ~/go/bin/uncover /usr/local/bin/
+
+# waymore
+RUN git clone https://github.com/xnl-h4ck3r/waymore.git ~/waymore  && \
+cd ~/waymore  && \
+sudo python3 setup.py install  && \
+sudo chmod +x ~/waymore/waymore.py  && \
+sed -i -e 's/\r//g' waymore.py  && \
+mv ~/waymore/waymore.py /usr/local/bin/waymore
 
 # # Z4nzu/hackingtool
 # git clone https://github.com/Z4nzu/hackingtool.git ~/GIT-REPOS/CORE/hackingtool
