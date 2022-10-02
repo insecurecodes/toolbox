@@ -54,6 +54,10 @@ RUN wget https://github.com/findomain/findomain/releases/latest/download/findoma
 unzip  /usr/local/bin/findomain.zip -d usr/local/bin/ && \
 chmod +x /usr/local/bin/findomain
 
+# httprobe
+RUN go install github.com/tomnomnom/httprobe@latest & \
+sudo mv ~/go/bin/httprobe /usr/local/bin/
+
 # httpx
 RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
 mv ~/go/bin/httpx /usr/local/bin/

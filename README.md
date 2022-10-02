@@ -12,6 +12,7 @@ This toolbox includes several updated tools for red team assessments and penetra
 - Findomain
 - gau
 - hakrawler
+- httprobe
 - httpx
 - pspy
 - subfinder
@@ -37,6 +38,7 @@ alias dnsx='docker run -i securitybydesign/toolbox dnsx'
 alias findomain='docker run -i securitybydesign/toolbox findomain'
 alias gau='docker run -i securitybydesign/toolbox gau'
 alias hakrawler='docker run -i securitybydesign/toolbox hakrawler'
+alias httpx='docker run -i securitybydesign/toolbox httprobe'
 alias httpx='docker run -i securitybydesign/toolbox httpx'
 alias pspy64='docker run -i securitybydesign/toolbox pspy64'
 alias subfinder='docker run -i securitybydesign/toolbox subfinder'
