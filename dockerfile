@@ -54,6 +54,10 @@ RUN wget https://github.com/findomain/findomain/releases/latest/download/findoma
 unzip  /usr/local/bin/findomain.zip -d usr/local/bin/ && \
 chmod +x /usr/local/bin/findomain
 
+# gowitness
+RUN go install github.com/sensepost/gowitness@latest  & \
+sudo mv ~/go/bin/gowitness /usr/local/bin/
+
 # httprobe
 RUN go install github.com/tomnomnom/httprobe@latest & \
 sudo mv ~/go/bin/httprobe /usr/local/bin/
