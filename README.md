@@ -59,3 +59,14 @@ docker build . -t toolbox:latest
 
 - Add more tools
 - Evaluate if pspy64 make sense here or can be removed
+
+# Tools on trial
+
+- [syft](https://github.com/anchore/syft)
+- [grype](https://github.com/anchore/grype)
+- [checkov](https://github.com/bridgecrewio/checkov)
+- [lynis](https://github.com/CISOfy/lynis)
+- [DependencyCheck](https://github.com/jeremylong/DependencyCheck)
+- [WhatWeb](https://github.com/urbanadventurer/WhatWeb)
+- [kube-hunter](https://github.com/aquasecurity/kube-hunter)
+- [kubeclarity](https://github.com/openclarity/kubeclarity)
