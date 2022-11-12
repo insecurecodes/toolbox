@@ -86,6 +86,20 @@ sudo chmod +x ~/waymore/waymore.py  && \
 sed -i -e 's/\r//g' waymore.py  && \
 mv ~/waymore/waymore.py /usr/local/bin/waymore
 
+
+# Katana
+RUN go install -v github.com/projectdiscovery/katana/cmd/katana@latest && \
+mv ~/go/bin/katana /usr/local/bin/
+
+
+# # theHarvester
+# RUN git clone https://github.com/laramies/theHarvester ~/theHarvester && \
+# cd ~/theHarvester && \
+# pip3 install -r requirements.txt
+
+
+
+
 # # Z4nzu/hackingtool
 # git clone https://github.com/Z4nzu/hackingtool.git ~/GIT-REPOS/CORE/hackingtool
 # chmod -R 755 ~/GIT-REPOS/CORE/hackingtool && cd ~/GIT-REPOS/CORE/hackingtool
