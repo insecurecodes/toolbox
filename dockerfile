@@ -38,7 +38,7 @@ RUN go install github.com/tomnomnom/assetfinder@latest && \
 mv ~/go/bin/assetfinder /usr/local/bin/
 
 # Amass
-RUN go install -v github.com/OWASP/Amass/v3/...@master && \
+RUN go install -v github.com/owasp-amass/amass/v3/...@master && \
 mv ~/go/bin/amass /usr/local/bin/
 
 # pspy
