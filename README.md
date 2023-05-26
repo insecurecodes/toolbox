@@ -1,25 +1,48 @@
+- [Security Toolbox](#security-toolbox)
+  - [Usage](#usage)
+    - [ZSH alias](#zsh-alias)
+  - [Build locally](#build-locally)
+- [Utils](#utils)
+- [TODO](#todo)
+- [Tools on trial](#tools-on-trial)
+
+
 # Security Toolbox
 
 This toolbox includes several updated tools for red team assessments and penetration testing running exclusively on docker
 
 *Tools*
 
-- amass
+- Airixss
+- Amass
 - anew
-- Assetfinder
+- Asset finder
 - DNS Recon
+- dnsvalidator
 - dnsx
 - Findomain
+- Freq
 - gau
+- goop
+- gowitness
 - hakrawler
+- hqurlscann3r
 - httprobe
 - httpx
-- pspy
+- Katana
+- Knock
+- massdns
+- Meg
+- Nuclei
+- Photon
+- PureDNS
+- sdlookup
 - subfinder
-- uncover
-- waybackurls
-- waymore
-  
+- Sudomy
+- Uncover
+- Uro
+- Waybackurls
+- xurlfind3r (old sigurlfind3r)
 ## Usage
 
 ```
@@ -54,6 +77,10 @@ alias waymore='docker run -i securitybydesign/toolbox waymore'
 ```
 docker build . -t toolbox:latest
 ```
+
+# Utils
+
+- [Wordlists](https://github.com/insecurecodes/athenaeum#wordlists)
 
 # TODO
 

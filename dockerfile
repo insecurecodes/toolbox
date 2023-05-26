@@ -1,110 +1,161 @@
-FROM alpine:latest
+# Use Ubuntu LTS as the base image
+FROM opensuse/tumbleweed:latest
 
-# Update packages
-RUN apk update && apk upgrade --available && sync
+# Update the package lists
+RUN zypper dup -y
 
-# Install dependencies
-RUN apk add go curl file git sudo wget python3 py3-pip linux-headers py3-psutil
+##ENV
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:/root/go/bin:${PATH}"
 
-## Set toolbox user
-RUN adduser \
-    --disabled-password \
-    #  --ingroup "root" \
-    "toolbox"
-RUN chown -R toolbox: /usr/local/bin/
+WORKDIR /root
+
+# Volume
+RUN mkdir -p /opt/data
+
+#
+# Install any necessary dependencies
+RUN zypper install -y ca-certificates openssl python3 python3-pip curl sudo git go unzip tmux vim make wget
 
 # Add python syslink for compatibility
 RUN ln -s -f /usr/bin/python3 /usr/bin/python
 
-# Tools
-# hakrawler
-RUN go install github.com/hakluke/hakrawler@latest && \
-mv ~/go/bin/hakrawler /usr/local/bin/
+# Install Brew
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&\
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.profile &&\
+eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
-# waybackurls
-RUN go install github.com/tomnomnom/waybackurls@latest && \
-mv ~/go/bin/waybackurls /usr/local/bin/
+# Install Tools
+## Amass
+RUN go install -v github.com/owasp-amass/amass/v3/...@master
 
-# gau
-RUN go install github.com/lc/gau/v2/cmd/gau@latest && \
-mv ~/go/bin/gau /usr/local/bin/
+## Asset finder
+RUN go install github.com/tomnomnom/assetfinder@latest
 
-# anew
-RUN go install -v github.com/tomnomnom/anew@latest && \
-mv ~/go/bin/anew /usr/local/bin/
+## anew
+RUN go install -v github.com/tomnomnom/anew@latest
 
-# Asset finder
-RUN go install github.com/tomnomnom/assetfinder@latest && \
-mv ~/go/bin/assetfinder /usr/local/bin/
+## Findomain
+RUN curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-linux-i386.zip > /tmp/findomain-linux-i386.zip && \
+curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-aarch64.zip > /tmp/findomain-aarch64.zip && \
+curl -LO https://github.com/findomain/findomain/releases/latest/download/findomain-armv7.zip > /tmp/findomain-armv7.zip && \
+unzip findomain-linux-i386.zip -d /tmp && chmod +x /tmp/findomain && mv /tmp/findomain /usr/bin/findomain-i386 && \
+unzip findomain-aarch64.zip -d /tmp && chmod +x /tmp/findomain && mv /tmp/findomain /usr/bin/findomain-aarch64 && \
+unzip findomain-armv7.zip -d /tmp && chmod +x /tmp/findomain && mv /tmp/findomain /usr/bin/findomain-armv7
+# RUN wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux.zip -O /usr/local/bin/findomain.zip && \
+# unzip  /usr/local/bin/findomain.zip -d usr/local/bin/ && \
+# chmod +x /usr/local/bin/findomain
 
-# Amass
-RUN go install -v github.com/owasp-amass/amass/v3/...@master && \
-mv ~/go/bin/amass /usr/local/bin/
+## dnsx
+RUN go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest
 
-# pspy
-RUN wget `curl --silent "https://api.github.com/repos/DominicBreuker/pspy/releases/latest" |grep browser_download_url | grep -m 1 pspy64 |awk {'print $2'} |sed 's/\"//g'` -O /usr/local/bin/pspy64 && chmod +x /usr/local/bin/pspy64
+## subfinder
+RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest
+
+## gau
+RUN go install github.com/lc/gau/v2/cmd/gau@latest
+
+## goop
+RUN go install github.com/deletescape/goop@latest
+
+## httpx
+RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
+
+## knock
+RUN git clone https://github.com/guelfoweb/knock.git ~/knock &&\
+cd ~/knock &&\
+pip3 install -r requirements.txt &&\
+chmod +x knockpy.py &&\
+ln -s -f /root/knock/knockpy.py /usr/bin/knowckpy
+
+
+## Photon
+RUN git clone https://github.com/s0md3v/Photon.git ~/Photon &&\
+cd ~/Photon &&\
+pip3 install -r requirements.txt &&\
+chmod +x photon.py &&\
+ln -s -f /root/Photon/photon.py /usr/bin/photon
+
+
+## meg
+RUN go install github.com/tomnomnom/meg@latest
+
+## waybackurls
+RUN go install github.com/tomnomnom/waybackurls@latest 
+
+## Sudomy
+RUN git clone --recursive https://github.com/screetsec/Sudomy.git ~/Sudomy &&\
+cd ~/Sudomy &&\
+pip3 install -r requirements.txt &&\
+chmod +x sudomy &&\
+ln -s -f /root/Sudomy/sudomy /usr/bin/sudomy
+
+## Uro
+RUN pip3 install uro
+
+## Nuclei
+RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest &&\
+nuclei
+
+## Freq
+RUN go install github.com/takshal/freq@latest
+
+## sdlookup
+RUN go install github.com/j3ssie/sdlookup@latest
+
+## dnsvalidator
+RUN git clone https://github.com/vortexau/dnsvalidator.git ~/dnsvalidator &&\
+cd dnsvalidator &&\
+python3 setup.py install
+#dnsvalidator -tL https://public-dns.info/nameservers.txt -threads 20 -o resolvers.txt
+
+## massdns
+RUN git clone https://github.com/blechschmidt/massdns.git ~/massdns &&\
+cd ~/massdns &&\
+make &&\
+make install &&\
+cd ~
 
 # DNS Recon
 RUN git clone https://github.com/darkoperator/dnsrecon.git ~/dnsrecon && \
 cd ~/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
 ln -s -f  $PWD/dnsrecon.py /usr/local/bin/dnsrecon
 
-# Findomain
-RUN wget https://github.com/findomain/findomain/releases/latest/download/findomain-linux.zip -O /usr/local/bin/findomain.zip && \
-unzip  /usr/local/bin/findomain.zip -d usr/local/bin/ && \
-chmod +x /usr/local/bin/findomain
+## PureDNS
+RUN go install github.com/d3mondev/puredns/v2@latest
 
-# gowitness
-RUN go install github.com/sensepost/gowitness@latest  && \
-sudo mv ~/go/bin/gowitness /usr/local/bin/
+## hakrawler
+RUN go install github.com/hakluke/hakrawler@latest
 
-# httprobe
-RUN go install github.com/tomnomnom/httprobe@latest && \
-sudo mv ~/go/bin/httprobe /usr/local/bin/
+## httprobe
+RUN go install github.com/tomnomnom/httprobe@latest
 
-# httpx
-RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest && \
-mv ~/go/bin/httpx /usr/local/bin/
+## gowitness
+RUN go install github.com/sensepost/gowitness@latest
 
-# dnsx
-RUN go install -v github.com/projectdiscovery/dnsx/cmd/dnsx@latest && \
-mv ~/go/bin/dnsx /usr/local/bin/
+## uncover
+RUN go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest
 
-# subfinder
-RUN go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest && \
-mv ~/go/bin/subfinder /usr/local/bin/
+## Katana
+RUN go install -v github.com/projectdiscovery/katana/cmd/katana@latest
 
-# uncover
-RUN go install -v github.com/projectdiscovery/uncover/cmd/uncover@latest && \
-mv ~/go/bin/uncover /usr/local/bin/
+## hqurlscann3r
+RUN go install -v github.com/hueristiq/hqurlscann3r/cmd/hqurlscann3r@latest
 
-# waymore
-RUN git clone https://github.com/xnl-h4ck3r/waymore.git ~/waymore  && \
-cd ~/waymore  && \
-sudo python3 setup.py install  && \
-sudo chmod +x ~/waymore/waymore.py  && \
-sed -i -e 's/\r//g' waymore.py  && \
-mv ~/waymore/waymore.py /usr/local/bin/waymore
+## xurlfind3r (old sigurlfind3r)
+RUN go install -v github.com/hueristiq/xurlfind3r/cmd/xurlfind3r@latest
+
+## Airixss
+RUN go install github.com/ferreiraklet/airixss@latest
 
 
-# Katana
-RUN go install -v github.com/projectdiscovery/katana/cmd/katana@latest && \
-mv ~/go/bin/katana /usr/local/bin/
+# Set the working directory inside the container
+WORKDIR /opt/data
 
+# Copy the application files to the container
+# COPY . /app
 
-# # theHarvester
-# RUN git clone https://github.com/laramies/theHarvester ~/theHarvester && \
-# cd ~/theHarvester && \
-# pip3 install -r requirements.txt
+LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
 
+# Start a long-running process as the container's command
+CMD tail -f /dev/null
 
-
-
-# # Z4nzu/hackingtool
-# git clone https://github.com/Z4nzu/hackingtool.git ~/GIT-REPOS/CORE/hackingtool
-# chmod -R 755 ~/GIT-REPOS/CORE/hackingtool && cd ~/GIT-REPOS/CORE/hackingtool
-# sudo pip3 install -r requirement.txt
-# bash install.sh
-
-# Legion
-# https://github.com/carlospolop/legion
