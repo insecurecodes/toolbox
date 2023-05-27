@@ -15,33 +15,40 @@ This toolbox includes several updated tools for red team assessments and penetra
 
 - Airixss
 - Amass
-- anew
 - Asset finder
 - DNS Recon
-- dnsvalidator
-- dnsx
 - Findomain
 - Freq
-- gau
-- goop
-- gowitness
-- hakrawler
-- hqurlscann3r
-- httprobe
-- httpx
 - Katana
 - Knock
-- massdns
 - Meg
 - Nuclei
+- Pacu
+- ParamSpider
 - Photon
 - PureDNS
-- sdlookup
-- subfinder
 - Sudomy
 - Uncover
 - Uro
 - Waybackurls
+- anew
+- dnsvalidator
+- dnsx
+- gau
+- goop
+- gowitness
+- hakcheckurl
+- hakrawler
+- hqurlscann3r
+- httprobe
+- httpx
+- massdns
+- notify
+- qsreplace
+- sdlookup
+- subfinder
+- subjs
+- trufflehog
 - xurlfind3r (old sigurlfind3r)
 ## Usage
 

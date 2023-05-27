@@ -5,5 +5,5 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /mnt/toolbox:/mnt/toolbox
+      - /mnt/toolbox:/root
 

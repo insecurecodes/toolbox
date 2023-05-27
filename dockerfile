@@ -8,7 +8,8 @@ RUN zypper dup -y
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/root/go/bin:${PATH}"
 
 # set folder for default installation
-WORKDIR /root
+RUN mkdir -p /opt/data
+WORKDIR /opt/data
 
 # Install any necessary dependencies
 RUN zypper install -y ca-certificates openssl python3 python3-pip curl sudo git go unzip tmux vim make wget
@@ -89,7 +90,6 @@ RUN pip3 install uro
 
 ## Nuclei
 RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest &&\
-nuclei
 
 ## Freq
 RUN go install github.com/takshal/freq@latest
@@ -145,11 +145,30 @@ RUN go install github.com/ferreiraklet/airixss@latest
 ## trufflehog
 RUN brew install trufflesecurity/trufflehog/trufflehog
 
+## hakcheckurl
+RUN go install github.com/hakluke/hakcheckurl@latest
+
+## subjs
+RUN go install github.com/lc/subjs@latest
+
+## ParamSpider
+RUN git clone https://github.com/devanshbatham/ParamSpider ~/ParamSpider && \
+cd ~/ParamSpider && pip3 install -r requirements.txt && \
+ln -s -f  $PWD/paramspider.py /usr/local/bin/paramspider
+
+## Pacu
+RUN pip3 install pacu
+
+## qsreplace
+RUN go install github.com/tomnomnom/qsreplace@latest
+
+## notify
+RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
+
 LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
 
-# set folder for volume
-RUN mkdir -p /mnt/toolbox
-WORKDIR /mnt/toolbox
+# workdir and volume
+WORKDIR /root
 
 # Start a long-running process as the container's command
 CMD tail -f /dev/null
