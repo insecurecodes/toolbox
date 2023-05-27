@@ -5,5 +5,5 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - /opt/data:/opt/data
+      - /root:/mnt/toolbox
 

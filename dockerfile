@@ -9,10 +9,6 @@ ENV PATH="/home/linuxbrew/.linuxbrew/bin:/root/go/bin:${PATH}"
 
 WORKDIR /root
 
-# Volume
-RUN mkdir -p /opt/data
-
-#
 # Install any necessary dependencies
 RUN zypper install -y ca-certificates openssl python3 python3-pip curl sudo git go unzip tmux vim make wget
 
@@ -67,14 +63,12 @@ pip3 install -r requirements.txt &&\
 chmod +x knockpy.py &&\
 ln -s -f /root/knock/knockpy.py /usr/bin/knowckpy
 
-
 ## Photon
 RUN git clone https://github.com/s0md3v/Photon.git ~/Photon &&\
 cd ~/Photon &&\
 pip3 install -r requirements.txt &&\
 chmod +x photon.py &&\
 ln -s -f /root/Photon/photon.py /usr/bin/photon
-
 
 ## meg
 RUN go install github.com/tomnomnom/meg@latest
@@ -147,12 +141,8 @@ RUN go install -v github.com/hueristiq/xurlfind3r/cmd/xurlfind3r@latest
 ## Airixss
 RUN go install github.com/ferreiraklet/airixss@latest
 
-
-# Set the working directory inside the container
-WORKDIR /opt/data
-
-# Copy the application files to the container
-# COPY . /app
+## trufflehog
+RUN brew install trufflesecurity/trufflehog/trufflehog
 
 LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
 
