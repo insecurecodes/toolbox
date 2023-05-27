@@ -7,6 +7,7 @@ RUN zypper dup -y
 ##ENV
 ENV PATH="/home/linuxbrew/.linuxbrew/bin:/root/go/bin:${PATH}"
 
+# set folder for default installation
 WORKDIR /root
 
 # Install any necessary dependencies
@@ -145,6 +146,10 @@ RUN go install github.com/ferreiraklet/airixss@latest
 RUN brew install trufflesecurity/trufflehog/trufflehog
 
 LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
+
+# set folder for volume
+RUN mkdir -p /mnt/toolbox
+WORKDIR /mnt/toolbox
 
 # Start a long-running process as the container's command
 CMD tail -f /dev/null
