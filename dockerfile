@@ -89,7 +89,7 @@ ln -s -f /root/Sudomy/sudomy /usr/bin/sudomy
 RUN pip3 install uro
 
 ## Nuclei
-RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest &&\
+RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
 
 ## Freq
 RUN go install github.com/takshal/freq@latest
@@ -99,7 +99,7 @@ RUN go install github.com/j3ssie/sdlookup@latest
 
 ## dnsvalidator
 RUN git clone https://github.com/vortexau/dnsvalidator.git ~/dnsvalidator &&\
-cd dnsvalidator &&\
+cd ~/dnsvalidator &&\
 python3 setup.py install
 #dnsvalidator -tL https://public-dns.info/nameservers.txt -threads 20 -o resolvers.txt
 
