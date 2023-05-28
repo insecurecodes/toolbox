@@ -66,7 +66,7 @@ For convenience you can export the commands directly in your zsh or bash profile
 docker build . -t toolbox:latest
 ```
 
-- With persistent volume (/opt/toolbox)
+- With persistent volume (/mnt/toolbox)
 ```
 docker compose up --build
 ```
