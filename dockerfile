@@ -59,18 +59,18 @@ RUN go install github.com/deletescape/goop@latest
 RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 
 ## knock
-RUN git clone https://github.com/guelfoweb/knock.git ~/knock &&\
-cd ~/knock &&\
+RUN git clone https://github.com/guelfoweb/knock.git /opt/data/knock &&\
+cd /opt/data/knock &&\
 pip3 install -r requirements.txt &&\
 chmod +x knockpy.py &&\
-ln -s -f /root/knock/knockpy.py /usr/bin/knowckpy
+ln -s -f  $PWD/knockpy.py /usr/bin/knowckpy
 
 ## Photon
-RUN git clone https://github.com/s0md3v/Photon.git ~/Photon &&\
-cd ~/Photon &&\
+RUN git clone https://github.com/s0md3v/Photon.git /opt/data/Photon &&\
+cd /opt/data/Photon &&\
 pip3 install -r requirements.txt &&\
 chmod +x photon.py &&\
-ln -s -f /root/Photon/photon.py /usr/bin/photon
+ln -s -f  $PWD/photon.py /usr/bin/photon
 
 ## meg
 RUN go install github.com/tomnomnom/meg@latest
@@ -79,11 +79,11 @@ RUN go install github.com/tomnomnom/meg@latest
 RUN go install github.com/tomnomnom/waybackurls@latest 
 
 ## Sudomy
-RUN git clone --recursive https://github.com/screetsec/Sudomy.git ~/Sudomy &&\
-cd ~/Sudomy &&\
+RUN git clone --recursive https://github.com/screetsec/Sudomy.git /opt/data/Sudomy &&\
+cd /opt/data/Sudomy &&\
 pip3 install -r requirements.txt &&\
 chmod +x sudomy &&\
-ln -s -f /root/Sudomy/sudomy /usr/bin/sudomy
+ln -s -f  $PWD/sudomy /usr/bin/sudomy
 
 ## Uro
 RUN pip3 install uro
@@ -98,21 +98,21 @@ RUN go install github.com/takshal/freq@latest
 RUN go install github.com/j3ssie/sdlookup@latest
 
 ## dnsvalidator
-RUN git clone https://github.com/vortexau/dnsvalidator.git ~/dnsvalidator &&\
-cd ~/dnsvalidator &&\
+RUN git clone https://github.com/vortexau/dnsvalidator.git /opt/data/dnsvalidator &&\
+cd /opt/data/dnsvalidator &&\
 python3 setup.py install
 #dnsvalidator -tL https://public-dns.info/nameservers.txt -threads 20 -o resolvers.txt
 
 ## massdns
-RUN git clone https://github.com/blechschmidt/massdns.git ~/massdns &&\
-cd ~/massdns &&\
+RUN git clone https://github.com/blechschmidt/massdns.git /opt/data/massdns &&\
+cd /opt/data/massdns &&\
 make &&\
 make install &&\
 cd ~
 
 # DNS Recon
-RUN git clone https://github.com/darkoperator/dnsrecon.git ~/dnsrecon && \
-cd ~/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
+RUN git clone https://github.com/darkoperator/dnsrecon.git /opt/data/dnsrecon && \
+cd /opt/data/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
 ln -s -f  $PWD/dnsrecon.py /usr/local/bin/dnsrecon
 
 ## PureDNS
@@ -152,8 +152,8 @@ RUN go install github.com/hakluke/hakcheckurl@latest
 RUN go install github.com/lc/subjs@latest
 
 ## ParamSpider
-RUN git clone https://github.com/devanshbatham/ParamSpider ~/ParamSpider && \
-cd ~/ParamSpider && pip3 install -r requirements.txt && \
+RUN git clone https://github.com/devanshbatham/ParamSpider /opt/data/ParamSpider && \
+cd /opt/data/ParamSpider && pip3 install -r requirements.txt && \
 ln -s -f  $PWD/paramspider.py /usr/local/bin/paramspider
 
 ## Pacu
