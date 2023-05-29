@@ -156,6 +156,10 @@ RUN git clone https://github.com/devanshbatham/ParamSpider /opt/data/ParamSpider
 cd /opt/data/ParamSpider && pip3 install -r requirements.txt && \
 ln -s -f  $PWD/paramspider.py /usr/local/bin/paramspider
 
+RUN git clone https://github.com/KathanP19/JSFScan.sh.git /opt/data/JSFScan && \
+cd /opt/data/JSFScan && chmod +x *.sh && ./install.sh && \
+ln -s -f  $PWD/JSFScan.sh /usr/local/bin/jsfscan
+
 ## Pacu
 RUN pip3 install pacu
 
