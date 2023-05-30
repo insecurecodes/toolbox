@@ -52,7 +52,7 @@ This toolbox includes several updated tools for red team assessments and bug bou
 | [trufflehog](https://github.com/trufflesecurity/trufflehog) | Find leaked credentials.                                                                                                                                          |
 | [xurlfind3r](https://github.com/hueristiq/xurlfind3r/)      | Find domain's known URLs passively from several sources                                                                                                           |
 | [JSFScan.sh](https://github.com/KathanP19/JSFScan.sh)       | Javascript recon automation                                                                                                                                       |
-
+| [unfurl](https://github.com/tomnomnom/unfurl)               | Pull out bits of URLs provided on stdin                                                                                                                           |
 ## Usage
 
 ```

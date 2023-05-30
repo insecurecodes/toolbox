@@ -169,6 +169,9 @@ RUN go install github.com/tomnomnom/qsreplace@latest
 ## notify
 RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
 
+## unfurl
+RUN go install github.com/tomnomnom/unfurl@latest
+
 LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
 
 # workdir and volume
