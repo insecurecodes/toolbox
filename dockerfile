@@ -166,11 +166,13 @@ RUN pip3 install pacu
 ## qsreplace
 RUN go install github.com/tomnomnom/qsreplace@latest
 
-## notify
-RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
-
 ## unfurl
 RUN go install github.com/tomnomnom/unfurl@latest
+
+## notify
+RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest && \
+mkdir -p $HOME/.config/notify
+COPY ./config/provider-config.yaml /root/.config/notify/provider-config.yaml
 
 LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
 
