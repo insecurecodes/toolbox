@@ -1,25 +1,31 @@
 # Use Ubuntu LTS as the base image
-FROM opensuse/tumbleweed:latest
+FROM debian:stable-slim
 
-# Update the package lists
-RUN zypper dup -y
+# Set environment variables to non-interactive (this prevents some prompts)
+ENV DEBIAN_FRONTEND=non-interactive
 
-##ENV
-ENV PATH="/home/linuxbrew/.linuxbrew/bin:/root/go/bin:${PATH}"
+# Install curl and other utilities, then install Go
+RUN apt-get update && apt-get install -y curl && \
+    LATEST_GO_VERSION=$(curl -s https://go.dev/dl/ | grep -oP 'go[0-9]+\.[0-9]+\.[0-9]+\.linux-amd64\.tar\.gz' | head -1) && \
+    curl -O https://dl.google.com/go/$LATEST_GO_VERSION && \
+    tar -C /usr/local -xzf $LATEST_GO_VERSION && \
+    rm $LATEST_GO_VERSION
+
+ENV PATH="/home/linuxbrew/.linuxbrew/bin:/usr/local/go/bin:${PATH}"
 
 # set folder for default installation
 RUN mkdir -p /opt/data
 WORKDIR /opt/data
 
 # Install any necessary dependencies
-RUN zypper install -y ca-certificates openssl python3 python3-pip curl sudo git go unzip tmux vim make wget
+RUN apt-get install -y ca-certificates openssl python3 python3-pip curl git unzip tmux vim make wget
 
 # Add python syslink for compatibility
 RUN ln -s -f /usr/bin/python3 /usr/bin/python
 
 # Install Brew
-RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" &&\
-echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.profile &&\
+RUN /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)" && \
+echo 'eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"' >> /root/.profile && \
 eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 
 # Install Tools
@@ -61,14 +67,14 @@ RUN go install -v github.com/projectdiscovery/httpx/cmd/httpx@latest
 ## knock
 RUN git clone https://github.com/guelfoweb/knock.git /opt/data/knock &&\
 cd /opt/data/knock &&\
-pip3 install -r requirements.txt &&\
-chmod +x knockpy.py &&\
+pip3 install  --break-system-packages -r requirements.txt && \
+chmod +x knockpy.py && \
 ln -s -f  $PWD/knockpy.py /usr/bin/knowckpy
 
 ## Photon
 RUN git clone https://github.com/s0md3v/Photon.git /opt/data/Photon &&\
 cd /opt/data/Photon &&\
-pip3 install -r requirements.txt &&\
+pip3 install  --break-system-packages -r requirements.txt &&\
 chmod +x photon.py &&\
 ln -s -f  $PWD/photon.py /usr/bin/photon
 
@@ -79,14 +85,14 @@ RUN go install github.com/tomnomnom/meg@latest
 RUN go install github.com/tomnomnom/waybackurls@latest 
 
 ## Sudomy
-RUN git clone --recursive https://github.com/screetsec/Sudomy.git /opt/data/Sudomy &&\
-cd /opt/data/Sudomy &&\
-pip3 install -r requirements.txt &&\
+RUN git clone --recursive https://github.com/screetsec/Sudomy.git /opt/data/sudomy &&\
+cd /opt/data/sudomy &&\
+pip3 install --break-system-packages -r requirements.txt &&\
 chmod +x sudomy &&\
-ln -s -f  $PWD/sudomy /usr/bin/sudomy
+ln -s -f  $PWD/my /usr/bin/sudomy
 
 ## Uro
-RUN pip3 install uro
+RUN pip3 install --break-system-packages uro
 
 ## Nuclei
 RUN go install -v github.com/projectdiscovery/nuclei/v2/cmd/nuclei@latest
@@ -112,7 +118,7 @@ cd ~
 
 # DNS Recon
 RUN git clone https://github.com/darkoperator/dnsrecon.git /opt/data/dnsrecon && \
-cd /opt/data/dnsrecon && pip3 install -r requirements.txt --no-warn-script-location && \
+cd /opt/data/dnsrecon && pip3 install  --break-system-packages -r requirements.txt --no-warn-script-location && \
 ln -s -f  $PWD/dnsrecon.py /usr/local/bin/dnsrecon
 
 ## PureDNS
@@ -153,7 +159,7 @@ RUN go install github.com/lc/subjs@latest
 
 ## ParamSpider
 RUN git clone https://github.com/devanshbatham/ParamSpider /opt/data/ParamSpider && \
-cd /opt/data/ParamSpider && pip3 install -r requirements.txt && \
+cd /opt/data/ParamSpider && pip3 install --break-system-packages . && \
 ln -s -f  $PWD/paramspider.py /usr/local/bin/paramspider
 
 RUN git clone https://github.com/KathanP19/JSFScan.sh.git /opt/data/JSFScan && \
@@ -161,7 +167,7 @@ cd /opt/data/JSFScan && chmod +x *.sh && ./install.sh && \
 ln -s -f  $PWD/JSFScan.sh /usr/local/bin/jsfscan
 
 ## Pacu
-RUN pip3 install pacu
+RUN pip3 install --break-system-packages pacu
 
 ## qsreplace
 RUN go install github.com/tomnomnom/qsreplace@latest
@@ -174,7 +180,7 @@ RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest && \
 mkdir -p $HOME/.config/notify
 COPY ./config/provider-config.yaml /root/.config/notify/provider-config.yaml
 
-LABEL maintainer="Renan Toesqui Magalhaes <renan@rtm.codes>"
+LABEL maintainer="Renan Toesqui Magalhaes <rtm@insecure.codes>"
 
 # workdir and volume
 WORKDIR /root
