@@ -180,6 +180,10 @@ RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest && \
 mkdir -p $HOME/.config/notify
 COPY ./config/provider-config.yaml /root/.config/notify/provider-config.yaml
 
+# Cleanup
+RUN apt --purge autoremove
+RUN apt autoclean
+
 LABEL maintainer="Renan Toesqui Magalhaes <rtm@insecure.codes>"
 
 # workdir and volume
